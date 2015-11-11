@@ -32,31 +32,38 @@ public class HttpLoader implements Loadable {
 		super();
 	}
 	
+	@Override
 	public void downLoad(OutputStream outputStream, String folderPath, String fileName) {
 		openServer();
 		batchDownLoad(outputStream, folderPath, fileName);
 		closeServer();
 	}
+	
+	@Override
 	public void upload(InputStream inputStream, String folderPath, String fileName) {
 		openServer();
 		batchUpload(inputStream, folderPath, fileName);
 		closeServer();
 	}
 
+	@Override
 	public void delete(String folderPath, String fileName) {
 		openServer();
 		batchDelete(folderPath, fileName);
 		closeServer();
 	}
 	
+	@Override
 	public void configure(LoaderConfig loaderConfig) {
 		this.config = loaderConfig;
 	}
 
+	@Override
 	public void closeServer() {
 		//empty
 	}
 	
+	@Override
 	public void openServer() {
 		if(this.config == null || StringUtils.isBlank(this.config.getBasePath())) {
 			throw new LoadException("http上传下载未配置basePath.");
@@ -70,6 +77,7 @@ public class HttpLoader implements Loadable {
 		this.config.setBasePath(contextPath);
 	}
 
+	@Override
 	public void batchDelete(String folderPath, String fileName) {
 		File file = LoaderHelper.getFile(getFullFolderPath(folderPath), fileName);
 		if(file.exists()) {
@@ -77,6 +85,7 @@ public class HttpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public void batchDownLoad(OutputStream outputStream, String folderPath,	String fileName) {
 		InputStream inputStream = null;
 		try {
@@ -95,6 +104,7 @@ public class HttpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public void batchUpload(InputStream inputStream, String folderPath, String fileName) {
 		//检查文件夹路径是否存在,不存在就创建
 		folderPath = getFullFolderPath(folderPath);
@@ -154,6 +164,7 @@ public class HttpLoader implements Loadable {
 	 * @param folderPath 路径
 	 * @return 文件列表
 	 */
+	@Override
 	public String[] getFileNamesFromFolder(String folderPath){
 		openServer();
 		String[] names = getFileNames(folderPath);

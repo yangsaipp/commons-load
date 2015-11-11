@@ -51,6 +51,7 @@ public class ApacheFtpLoader implements Loadable {
 		this.config = config;
 	}
 	
+	@Override
 	public void closeServer() {
 		if (ftpClient.isConnected()) {
 		    try {
@@ -63,6 +64,7 @@ public class ApacheFtpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public void openServer() {
 		if(config == null) {
 			throw new LoadException("找不到相关ftp连接配置参数,无法连接到ftp服务器！");
@@ -108,10 +110,12 @@ public class ApacheFtpLoader implements Loadable {
 		
 	}
 	
+	@Override
 	public void configure(LoaderConfig loaderConfig) {
 		this.config = loaderConfig;
 	}
 	
+	@Override
 	public void downLoad(OutputStream outputStream, String folderPath, String fileName) {
 		//获取client
 		openServer();
@@ -131,6 +135,7 @@ public class ApacheFtpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public void upload(InputStream inputStream, String folderPath, String fileName) {
 		//client
 		openServer();
@@ -158,6 +163,7 @@ public class ApacheFtpLoader implements Loadable {
 		
 	}
 
+	@Override
 	public void delete(String folderPath, String fileName) {
 		//获取client
 		openServer();
@@ -217,6 +223,7 @@ public class ApacheFtpLoader implements Loadable {
 		ftpClient.changeWorkingDirectory(ftpWorkingDirectory);
 	}
 
+	@Override
 	public void batchDelete(String folderPath, String fileName) {
 		try {
 			ftpClient.deleteFile(LoaderHelper.getFilePath(folderPath, fileName));
@@ -226,6 +233,7 @@ public class ApacheFtpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public void batchDownLoad(OutputStream outputStream, String folderPath,	String fileName) {
 		try {
 			String path = LoaderHelper.getFilePath(folderPath, fileName);
@@ -239,6 +247,7 @@ public class ApacheFtpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public void batchUpload(InputStream inputStream, String folderPath, String fileName) {
 		try {
 			//如果目录不存在
@@ -257,6 +266,7 @@ public class ApacheFtpLoader implements Loadable {
 		}
 	}
 
+	@Override
 	public String[] getFileNamesFromFolder(String folderPath){
 		openServer();
 		String[] names = getFileNames(folderPath);
