@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/dream/!svn/ver/19699/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader
+END
+ApacheFtpLoader.java
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/dream/!svn/ver/19679/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/ApacheFtpLoader.java
+END
+Loadable.java
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/dream/!svn/ver/18807/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/Loadable.java
+END
+HttpLoader.java
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/dream/!svn/ver/19699/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/HttpLoader.java
+END
+LoaderHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/dream/!svn/ver/18774/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/LoaderHelper.java
+END
+LoaderType.java
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/dream/!svn/ver/16785/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/LoaderType.java
+END
+LoaderConfig.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/dream/!svn/ver/16785/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/LoaderConfig.java
+END
+LoaderFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/dream/!svn/ver/18292/%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81/V6.0/%E6%BA%90%E7%A0%81/lds-core/src/main/java/com/dreamtech/lds/component/loader/LoaderFactory.java
+END

@@ -1,0 +1,146 @@
+package com.dreamtech.lds.component.loader;
+
+/**
+ * loader的相关配置信息,比如 ip, userName, password等
+ * @author sai.yang
+ *
+ */
+public class LoaderConfig {
+	//http 相关设置,在web项目中一般的值为getSession().getServletContext().getRealPath("/");
+	//即项目部署后的服务器路径，http上传下载都是基于该目录
+	private String contextPath;
+	
+	
+	//ftp 设置
+	private String host;  					//主机ip
+	private String username; 				//用户名
+	private String password; 				//密码
+	private int port;   					//端口
+	private String encoding; 				//编码
+	private String mainDirectory; 			//所定位到的目录
+	
+	private static int default_port = 21;
+	private static String default_encoding = "utf-8";
+	private static String default_mainDirectory = "/";
+	
+	public LoaderConfig(){
+		super();
+	}
+	
+	public LoaderConfig(String contextPath){
+		super();
+		this.contextPath = contextPath;
+	}
+	
+	/**
+	 * 用给定的参数初始化一个loader config<br>
+	 * 初始化的config的port为80, encoding为utf-8, mainDirectory为"/"
+	 * @param host
+	 * @param username
+	 * @param password
+	 */
+	public LoaderConfig(String host, String username, String password) {
+		this(host, username, password, default_port, default_mainDirectory);
+	}
+	
+	/**
+	 * 用给定的参数初始化一个loader config<br>
+	 * 初始化的config的port为80, mainDirectory为"/"
+	 * @param host
+	 * @param username
+	 * @param password
+	 * @param mainDirectory
+	 */
+	public LoaderConfig(String host, String username, String password, String mainDirectory) {
+		this(host, username, password, default_port, mainDirectory);
+	}
+
+	/**
+	 * 用给定的参数初始化一个loader config<br>
+	 * 初始化的config的mainDirectory为"/"
+	 * @param host
+	 * @param username
+	 * @param password
+	 * @param port
+	 * @param mainDirectory
+	 */
+	public LoaderConfig(String host, String username, String password, int port, String mainDirectory) {
+		this(host, username, password, default_port, default_encoding, mainDirectory);
+	}
+	
+	/**
+	 * 用给定的参数初始化一个loader config
+	 * @param host
+	 * @param username
+	 * @param password
+	 * @param port
+	 * @param encoding
+	 * @param mainDirectory
+	 */
+	public LoaderConfig(String host, String username, String password, int port, String encoding, String mainDirectory) {
+		super();
+		this.host = host;
+		this.username = username;
+		this.password = password;
+		this.port = port;
+		this.encoding = encoding;
+		this.mainDirectory = mainDirectory;
+	}
+
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getMainDirectory() {
+		return mainDirectory;
+	}
+
+	public void setMainDirectory(String mainDirectory) {
+		this.mainDirectory = mainDirectory;
+	}
+
+	public String getContextPath() {
+		return contextPath;
+	}
+
+	public void setContextPath(String contextPath) {
+		this.contextPath = contextPath;
+	}
+}
