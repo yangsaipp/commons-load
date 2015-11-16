@@ -25,7 +25,7 @@ public class LoaderConfigFactory {
 	public static LoaderConfig createConfigFromProperties() {
 		Properties prop = new Properties();
 		try {
-			prop.load(LoaderConfigFactory.class.getClassLoader().getResourceAsStream("cip.properties"));
+			prop.load(LoaderConfigFactory.class.getClassLoader().getResourceAsStream("fileload.properties"));
 			String basePath = (String) prop.get("basepath");
 			if(StringUtils.isNoneBlank(basePath)){
 				return new LoaderConfig(basePath);
