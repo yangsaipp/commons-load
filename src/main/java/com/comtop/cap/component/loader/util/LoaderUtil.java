@@ -13,6 +13,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.comtop.cap.component.loader.LoaderFactory;
 import com.comtop.cap.component.loader.config.LoaderConfig;
@@ -26,6 +31,47 @@ import com.comtop.cap.component.loader.config.LoaderConfigFactory;
 public class LoaderUtil {
 	/** 系统配置 */
 	private static LoaderConfig sysLoaderConfig = LoaderConfigFactory.createConfigFromProperties();
+	
+	/**
+	 * 根据给定的文件名生成8位随记文件名用于上传文件使用
+	 * @param fileName 带有后缀的文件名
+	 * @return 随记文件名
+	 */
+	public static String createRandomFileName(String fileName) {
+		if(fileName == null || fileName.indexOf(".") < 0) {
+			return null;
+		}
+		return RandomStringUtils.randomAlphanumeric(16).toUpperCase() + getSuffix(fileName); 
+	}
+	
+	/**
+	 * 根据给定的文件名获取文件后缀名(带.)
+	 * @param fileName 带有后缀的文件名
+	 * @return 后缀名(带.)
+	 */
+	public static String getSuffix(String fileName) {
+		if(fileName == null || fileName.indexOf(".") < 0) {
+			return null;
+		}
+		return fileName.substring(fileName.indexOf("."), fileName.length());
+	}
+	
+	/**
+	 * 根据上传code获取对应的上传目录
+	 * @param uploadCode 上传code
+	 * @return 对应的上传目录
+	 */
+	public static String getFolderPathByUploadCode(String uploadCode) {
+		if(StringUtils.isBlank(uploadCode)) {
+			return DateFormatUtils.format(new Date(), "yyyyMMdd");
+		}
+		String path = "";
+		if("document".equals(uploadCode)) {
+			path = "document/";
+		}
+		return path + DateFormatUtils.format(new Date(), "yyyyMMdd");
+		
+	}
 	
 	/**
 	 * 上传附件到对应的文件夹下
@@ -73,5 +119,13 @@ public class LoaderUtil {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @param folderPath 删除的文件所在的文件夹路径
+	 * @param fileName 要删除的文件名称
+	 */
+	public static void delete(String folderPath, String fileName) {
+		LoaderFactory.createLoader(sysLoaderConfig).delete(folderPath, fileName);
 	}
 }
