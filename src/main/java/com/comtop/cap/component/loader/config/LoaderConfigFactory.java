@@ -10,7 +10,7 @@ package com.comtop.cap.component.loader.config;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * loader config factory 用于构建不同config
@@ -27,7 +27,7 @@ public class LoaderConfigFactory {
 		try {
 			prop.load(LoaderConfigFactory.class.getClassLoader().getResourceAsStream("fileload.properties"));
 			String basePath = (String) prop.get("basepath");
-			if(StringUtils.isNoneBlank(basePath)){
+			if(StringUtils.isNotBlank(basePath)){
 				return new LoaderConfig(basePath);
 			}
 			

@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.exception.LoadException;

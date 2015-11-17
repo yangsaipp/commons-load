@@ -15,9 +15,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.comtop.cap.component.loader.LoaderFactory;
 import com.comtop.cap.component.loader.config.LoaderConfig;
