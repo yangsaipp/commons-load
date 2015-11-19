@@ -40,6 +40,8 @@ public class LoaderConfig {
 	/** 默认ftp主目录 */
 	private final static String default_mainDirectory = "/";
 	
+	/** 访问url */
+	private String visitUrl;
 	/** 配置文件类型 */
 	private LoaderType loaderType;
 	
@@ -258,6 +260,22 @@ public class LoaderConfig {
 	 */
 	public void setLoaderType(LoaderType loaderType) {
 		this.loaderType = loaderType;
+	}
+
+	/**
+	 * get 访问url
+	 * @return 访问url
+	 */ 
+	public String getVisitUrl() {
+		return visitUrl;
+	}
+
+	/**
+	 * set 访问url
+	 * @param visitUrl 访问url
+	 */
+	public void setVisitUrl(String visitUrl) {
+		this.visitUrl = visitUrl;
 	}
 	
 }

@@ -30,14 +30,18 @@ public class LoaderConfigFactory {
 			if(StringUtils.isNotBlank(basePath)){
 				return new LoaderConfig(basePath);
 			}
-			
+
 			String host = (String) prop.get("host");
 			String username = (String) prop.get("username");
 			String password = (String) prop.get("password");
 			int port = Integer.parseInt((String)prop.get("port"));
 			String encoding = (String) prop.get("encoding");
 			String mainDirectory = (String) prop.get("mainDirectory");
-			return new LoaderConfig(host, username, password, port, encoding, mainDirectory);
+			String visitUrl = (String) prop.get("visitUrl");
+			LoaderConfig config = new LoaderConfig(host, username, password, port, encoding, mainDirectory);
+			config.setVisitUrl(visitUrl);
+			return config;
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

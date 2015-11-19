@@ -128,4 +128,12 @@ public class LoaderUtil {
 	public static void delete(String folderPath, String fileName) {
 		LoaderFactory.createLoader(sysLoaderConfig).delete(folderPath, fileName);
 	}
+	
+	/**
+	 * 获取配置的visitUrl
+	 * @return visitUrl
+	 */
+	public static String getVisitUrl() {
+		return StringUtils.defaultString(sysLoaderConfig.getVisitUrl());
+	}
 }
