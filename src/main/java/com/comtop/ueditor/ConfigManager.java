@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (C) 2014 ShenZhen ComTop Information Technology Co.,Ltd
+ * All Rights Reserved.
+ * 本软件为深圳康拓普开发研制。未经本公司正式书面同意，其他任何个人、团体不得使用、
+ * 复制、修改或发布本软件.
+ *****************************************************************************/
+
 package com.comtop.ueditor;
 
 import java.io.BufferedReader;
@@ -13,13 +20,30 @@ import com.comtop.cip.json.JSONArray;
 import com.comtop.cip.json.JSONObject;
 import com.comtop.ueditor.define.ActionType;
 
+
+/**
+ * ConfigManager
+ * @author yangsai
+ *	
+ */
 public final class ConfigManager {
+	/** rootPath */
 	private final String rootPath;
+	/** originalPath */
 	private final String originalPath;
+	/** configFileName */
 	private static final String configFileName = "config.json";
+	/** parentPath */
 	private String parentPath = null;
+	/** jsonConfig */
 	private JSONObject jsonConfig = null;
 
+	/**
+	 * ConfigManager
+	 * @param rootPath rootPath
+	 * @param contextPath contextPath
+	 * @param uri uri
+	 */
 	private ConfigManager(String rootPath, String contextPath, String uri) {
 		rootPath = rootPath.replace("\\", "/");
 
@@ -33,6 +57,13 @@ public final class ConfigManager {
 		initEnv();
 	}
 
+	/**
+	 * getInstance
+	 * @param rootPath rootPath
+	 * @param contextPath contextPath
+	 * @param uri uri
+	 * @return ConfigManager
+	 */
 	public static ConfigManager getInstance(String rootPath,
 			String contextPath, String uri) {
 		try {
@@ -42,14 +73,24 @@ public final class ConfigManager {
 		return null;
 	}
 
+	/**
+	 * @return 验证结果
+	 */
 	public boolean valid() {
 		return this.jsonConfig != null;
 	}
 
+	/**
+	 * @return jsonConfig
+	 */
 	public JSONObject getAllConfig() {
 		return this.jsonConfig;
 	}
 
+	/**
+	 * @param actionType actiontype
+	 * @return Map
+	 */
 	public Map<String, Object> getConfig(ActionType actionType) {
 		Map<String, Object> conf = new HashMap<String, Object>();
 		String savePath = null;
@@ -108,6 +149,9 @@ public final class ConfigManager {
 		return conf;
 	}
 
+	/**
+	 * initEnv
+	 */
 	private void initEnv() {
 		File file = new File(this.originalPath);
 
@@ -119,10 +163,17 @@ public final class ConfigManager {
 		jsonConfig = JSON.parseObject(configContent);
 	}
 
+	/**
+	 * @return String
+	 */
 	private String getConfigPath() {
 		return this.parentPath + File.separator + configFileName;
 	}
 
+	/**
+	 * @param key key
+	 * @return String[]
+	 */
 	private String[] getArray(String key) {
 		JSONArray jsonArray = this.jsonConfig.getJSONArray(key);
 		String[] result = new String[jsonArray.size()];
@@ -135,6 +186,10 @@ public final class ConfigManager {
 		return result;
 	}
 
+	/**
+	 * @param path path
+	 * @return String
+	 */
 	private String readFile(String path) {
 		String tmpContent = null;
 		StringBuilder builder = new StringBuilder();	
@@ -159,6 +214,10 @@ public final class ConfigManager {
 		return filter(builder.toString());
 	}
 
+	/**
+	 * @param input input
+	 * @return String
+	 */
 	private String filter(String input) {
 		return input.replaceAll("/\\*[\\s\\S]*?\\*/", "");
 	}

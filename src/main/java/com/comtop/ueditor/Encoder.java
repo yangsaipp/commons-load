@@ -1,7 +1,16 @@
 package com.comtop.ueditor;
 
+/**
+ * Encoder
+ * @author yangsai
+ *
+ */
 public class Encoder {
 
+	/**
+	 * @param input input
+	 * @return String
+	 */ 
 	public static String toUnicode ( String input ) {
 		
 		StringBuilder builder = new StringBuilder();

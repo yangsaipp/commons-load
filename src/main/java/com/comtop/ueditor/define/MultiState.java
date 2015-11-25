@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (C) 2014 ShenZhen ComTop Information Technology Co.,Ltd
+ * All Rights Reserved.
+ * 本软件为深圳康拓普开发研制。未经本公司正式书面同意，其他任何个人、团体不得使用、
+ * 复制、修改或发布本软件.
+ *****************************************************************************/
+
 package com.comtop.ueditor.define;
 
 import java.util.ArrayList;
@@ -15,22 +22,41 @@ import com.comtop.ueditor.Encoder;
  *
  */
 public class MultiState implements State {
-
+	
+	/** state */
 	private boolean state = false;
+	/** info */
 	private String info = null;
+	/** intMap */
 	private Map<String, Long> intMap = new HashMap<String, Long>();
+	/** infoMap */
 	private Map<String, String> infoMap = new HashMap<String, String>();
+	/** stateList */
 	private List<String> stateList = new ArrayList<String>();
 	
+	/**
+	 * multiState
+	 * @param state state
+	 */
 	public MultiState ( boolean state ) {
 		this.state = state;
 	}
 	
+	/**
+	 * multiState
+	 * @param state state
+	 * @param info info
+	 */
 	public MultiState ( boolean state, String info ) {
 		this.state = state;
 		this.info = info;
 	}
 	
+	/**
+	 * MultiState
+	 * @param state state
+	 * @param infoKey infokey
+	 */
 	public MultiState ( boolean state, int infoKey ) {
 		this.state = state;
 		this.info = AppInfo.getStateInfo( infoKey );
@@ -41,6 +67,10 @@ public class MultiState implements State {
 		return this.state;
 	}
 	
+	/**
+	 * add state
+	 * @param state1 state
+	 */
 	public void addState ( State state1 ) {
 		stateList.add( state1.toJSONString() );
 	}

@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (C) 2014 ShenZhen ComTop Information Technology Co.,Ltd
+ * All Rights Reserved.
+ * 本软件为深圳康拓普开发研制。未经本公司正式书面同意，其他任何个人、团体不得使用、
+ * 复制、修改或发布本软件.
+ *****************************************************************************/
+
 package com.comtop.ueditor.upload;
 
 import java.io.IOException;
@@ -127,7 +134,7 @@ public class FileUploader {
 	 *            待验证的文件后缀名
 	 * @param allowTypes
 	 *            允许的后缀名列表
-	 * @return
+	 * @return true 合格 false 不合格
 	 */
 	private static boolean validType(String type, String[] allowTypes) {
 		List<String> list = Arrays.asList(allowTypes);

@@ -1,32 +1,62 @@
+/******************************************************************************
+ * Copyright (C) 2014 ShenZhen ComTop Information Technology Co.,Ltd
+ * All Rights Reserved.
+ * 本软件为深圳康拓普开发研制。未经本公司正式书面同意，其他任何个人、团体不得使用、
+ * 复制、修改或发布本软件.
+ *****************************************************************************/
+
 package com.comtop.ueditor.define;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * app info
+ * @author yangsai
+ *
+ */
 public final class AppInfo {
 	
+	/** success */
 	public static final int SUCCESS = 0;
+	/** MAX_SIZE */
 	public static final int MAX_SIZE = 1;
+	/** PERMISSION_DENIED */
 	public static final int PERMISSION_DENIED = 2;
+	/** FAILED_CREATE_FILE */
 	public static final int FAILED_CREATE_FILE = 3;
+	/** IO_ERROR */
 	public static final int IO_ERROR = 4;
+	/** NOT_MULTIPART_CONTENT */
 	public static final int NOT_MULTIPART_CONTENT = 5;
+	/** PARSE_REQUEST_ERROR */
 	public static final int PARSE_REQUEST_ERROR = 6;
+	/** NOTFOUND_UPLOAD_DATA */
 	public static final int NOTFOUND_UPLOAD_DATA = 7;
+	/** NOT_ALLOW_FILE_TYPE */
 	public static final int NOT_ALLOW_FILE_TYPE = 8;
 	
+	/** INVALID_ACTION */
 	public static final int INVALID_ACTION = 101;
+	/** CONFIG_ERROR */
 	public static final int CONFIG_ERROR = 102;
 	
+	/** PREVENT_HOST */
 	public static final int PREVENT_HOST = 201;
+	/** CONNECTION_ERROR */
 	public static final int CONNECTION_ERROR = 202;
+	/** REMOTE_FAIL */
 	public static final int REMOTE_FAIL = 203;
 	
+	/** NOT_DIRECTORY */
 	public static final int NOT_DIRECTORY = 301;
+	/** NOT_EXIST */
 	public static final int NOT_EXIST = 302;
 	
+	/** ILLEGAL */
 	public static final int ILLEGAL = 401;
-
+	
+	/** info */
 	public static Map<Integer, String> info = new HashMap<Integer, String>(){{
 		
 		put( AppInfo.SUCCESS, "SUCCESS" );
@@ -70,6 +100,11 @@ public final class AppInfo {
 		
 	}};
 	
+	/**
+	 * get state info
+	 * @param key key
+	 * @return info
+	 */
 	public static String getStateInfo ( int key ) {
 		return AppInfo.info.get( key );
 	}
