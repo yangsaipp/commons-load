@@ -21,6 +21,9 @@ public class LoadFile {
     /** 上传后文件存放目录 */
     private String folderPath;
     
+    /** 文件上传uploadId,各种业务点保存该id*/
+    private String uploadId;
+    
     /** 文件后缀 */
     private String fileSuffix;
     
@@ -32,6 +35,7 @@ public class LoadFile {
     
     /** 上传后的文件uri */
     private URI uri;
+    
     
     /**
      * get 上传文件名
@@ -163,4 +167,20 @@ public class LoadFile {
     public InputStream getInputStream() {
         return LoaderUtil.getInputstream(this.folderPath, this.fileName);
     }
+
+    /**
+     * get uploadId
+     * @return uploadId
+     */
+	public String getUploadId() {
+		return uploadId;
+	}
+
+	/**
+	 * set uploadId
+	 * @param uploadId uploadId
+	 */
+	public void setUploadId(String uploadId) {
+		this.uploadId = uploadId;
+	}
 }

@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.comtop.cap.component.loader.config.CapFileType;
 import com.comtop.cap.component.loader.util.LoaderUtil;
 import com.comtop.ueditor.define.BaseState;
 import com.comtop.ueditor.define.FileType;
@@ -87,7 +88,7 @@ public class FileUploader {
 					}
 
 					is = fileItem.getInputStream();
-					String folderPath = LoaderUtil.getFolderPathByUploadCode(null);
+					String folderPath = LoaderUtil.getFolderPath(CapFileType.UEDITOR_FILE_KEY, LoaderUtil.generateUploadId());
 					String fileName = LoaderUtil.createRandomFileName(originFileName);
 					LoaderUtil.upLoad(is, folderPath, fileName);
 					State storageState = new BaseState(true);

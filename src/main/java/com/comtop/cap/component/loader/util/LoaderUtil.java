@@ -14,13 +14,13 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.util.Date;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.Validate;
 
 import com.comtop.cap.component.loader.LoaderFactory;
+import com.comtop.cap.component.loader.config.CapFileType;
 import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.config.LoaderConfigFactory;
 
@@ -62,16 +62,22 @@ public class LoaderUtil {
     }
     
     /**
+     * @return	生成的UploadId
+     */
+    public static String generateUploadId() {
+    	return RandomStringUtils.randomAlphanumeric(16).toUpperCase();
+    }
+    
+    /**
      * 根据上传code获取对应的上传目录
      * 
-     * @param uploadCode 上传code
+     * @param uploadKey 上传业务key
+     * @param uploadId 上传id
      * @return 对应的上传目录
      */
-    public static String getFolderPathByUploadCode(String uploadCode) {
-        if (StringUtils.isBlank(uploadCode)) {
-            return DateFormatUtils.format(new Date(), "yyyyMMdd");
-        }
-        return "/" + uploadCode + "/" + DateFormatUtils.format(new Date(), "yyyyMMdd");
+    public static String getFolderPath(String uploadKey, String uploadId) {
+    	Validate.notEmpty(uploadId, "upload must be not empty.");
+        return "/" + CapFileType.getFilePathByKey(uploadKey) + "/" + uploadId;
         
     }
     
@@ -106,6 +112,18 @@ public class LoaderUtil {
      * 附件下载
      * 
      * @param outputStream 下载资源的IO
+     * @param uploadKey 文件key
+     * @param uploadId 上传时生成的id
+     * @param fileName 要下载的文件名称
+     */
+    public static void downLoad(OutputStream outputStream, String uploadKey, String uploadId, String fileName) {
+        LoaderFactory.getLoader(sysLoaderConfig).downLoad(outputStream, LoaderUtil.getFolderPath(uploadKey, uploadId), fileName);
+    }
+    
+    /**
+     * 附件下载
+     * 
+     * @param outputStream 下载资源的IO
      * @param folderPath 下载的文件所在的文件夹路径
      * @param fileName 要下载的文件名称
      */
@@ -129,11 +147,45 @@ public class LoaderUtil {
     }
     
     /**
+     * 删除附件
+     * @param uploadKey 文件key
+     * @param uploadId 上传时生成的id
+     * @param fileName 要删除的文件名称
+     */
+    public static void delete(String uploadKey, String uploadId, String fileName) {
+        LoaderFactory.getLoader(sysLoaderConfig).delete(getFolderPath(uploadKey, uploadId), fileName);
+    }
+    
+    /**
+     * 删除附件
+     * @param uploadKey 文件key
+     * @param uploadId 上传时生成的id
+     */
+    public static void delete(String uploadKey, String uploadId) {
+    	String[] fileName = getFileNames(uploadKey, uploadId);
+    	String folderPath = getFolderPath(uploadKey, uploadId);
+    	for(String file : fileName) {
+    		LoaderFactory.getLoader(sysLoaderConfig).delete(folderPath, file);
+    	}
+    }
+    
+    /**
+     * 删除附件
      * @param folderPath 删除的文件所在的文件夹路径
      * @param fileName 要删除的文件名称
      */
-    public static void delete(String folderPath, String fileName) {
+    public static void deleteAttachment(String folderPath, String fileName) {
         LoaderFactory.getLoader(sysLoaderConfig).delete(folderPath, fileName);
+    }
+    
+    /**
+     * 获取对应的文件列表
+     * @param uploadKey 文件key
+     * @param uploadId  上传时生成的id
+     * @return 文件列表
+     */
+    public static String[] getFileNames(String uploadKey, String uploadId) {
+    	return LoaderFactory.getLoader(sysLoaderConfig).getFileNamesFromFolder(getFolderPath(uploadKey, uploadId));
     }
     
     /**
