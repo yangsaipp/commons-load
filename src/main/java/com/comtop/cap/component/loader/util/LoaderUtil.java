@@ -19,7 +19,9 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
+import com.comtop.cap.component.loader.FileLocation;
 import com.comtop.cap.component.loader.LoaderFactory;
+import com.comtop.cap.component.loader.LoaderHelper;
 import com.comtop.cap.component.loader.config.CapFileType;
 import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.config.LoaderConfigFactory;
@@ -69,6 +71,17 @@ public class LoaderUtil {
     }
     
     /**
+     * 获取服务器上文件的下载流
+     * 
+     * @param folderPath 上传后文件存放的文件夹路径
+     * @param fileName 上传后文件存放的名称
+     * @return 服务器上文件的下载流
+     */
+    public static InputStream getFileInputStream(String folderPath, String fileName) {
+    	return LoaderFactory.getLoader(sysLoaderConfig).getFileInputStream(folderPath, fileName);
+    }
+    
+    /**
      * 根据上传code获取对应的上传目录
      * 
      * @param uploadKey 上传业务key
@@ -90,22 +103,58 @@ public class LoaderUtil {
      * @return 上传的文件路径
      */
     public static URI upLoad(InputStream inputStream, String folderPath, String fileName) {
-        return LoaderFactory.getLoader(sysLoaderConfig).upload(inputStream, folderPath, fileName);
+    	try {
+    		return LoaderFactory.getLoader(sysLoaderConfig).upload(inputStream, folderPath, fileName);
+    	}finally {
+           	LoaderHelper.close(inputStream);
+    	}
     }
-    
+
     /**
      * 上传附件到对应的文件夹下
      * 
      * @param file 上传资源
      * @param folderPath 上传后文件存放的文件夹路径
      * @param fileName 上传后文件存放的名称
+     * @return 上传的文件路径
      */
-    public static void uoload(File file, String folderPath, String fileName) {
-        try {
-            upLoad(new FileInputStream(file), folderPath, fileName);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static URI upLoad(File file, String folderPath, String fileName) {
+		try {
+			return upLoad(new FileInputStream(file), folderPath, fileName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+    }
+    
+    /**
+     * 上传附件到对应的文件夹下
+     * 
+     * @param inputStream 上传资源的IO
+     * @param uploadKey 文件key
+     * @param uploadId  上传时生成的id
+     * @param fileName 上传后文件存放的名称
+     * @return 上传的文件位置
+     */
+    public static FileLocation upLoad(InputStream inputStream, String uploadKey, String uploadId, String fileName) {
+    	FileLocation fileLocation = new FileLocation(uploadId, getFolderPath(uploadKey, uploadId), fileName);
+    	fileLocation.setUri(upLoad(inputStream, fileLocation.getFolderPath(), fileLocation.getFileName()));
+    	return fileLocation;
+    }
+    
+    /**
+     * 上传附件到对应的文件夹下
+     * 
+     *  @param file 上传资源
+     * @param uploadKey 文件key
+     * @param uploadId  上传时生成的id
+     * @param fileName 上传后文件存放的名称
+     * @return 上传的文件位置
+     */
+    public static FileLocation upLoad(File file, String uploadKey, String uploadId, String fileName) {
+    	FileLocation fileLocation = new FileLocation(uploadId, getFolderPath(uploadKey, uploadId), fileName);
+    	fileLocation.setUri(upLoad(file, fileLocation.getFolderPath(), fileLocation.getFileName()));
+    	return fileLocation;
     }
     
     /**
@@ -151,9 +200,10 @@ public class LoaderUtil {
      * @param uploadKey 文件key
      * @param uploadId 上传时生成的id
      * @param fileName 要删除的文件名称
+     * @return 文件删除状态 true 删除成功 false不成功
      */
-    public static void delete(String uploadKey, String uploadId, String fileName) {
-        LoaderFactory.getLoader(sysLoaderConfig).delete(getFolderPath(uploadKey, uploadId), fileName);
+    public static boolean delete(String uploadKey, String uploadId, String fileName) {
+        return LoaderFactory.getLoader(sysLoaderConfig).delete(getFolderPath(uploadKey, uploadId), fileName);
     }
     
     /**

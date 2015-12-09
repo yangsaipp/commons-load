@@ -185,12 +185,13 @@ public class ApacheFtpLoader implements Loadable {
     }
     
     @Override
-    public void delete(String folderPath, String fileName) {
+    public boolean delete(String folderPath, String fileName) {
         
+    	String filePath = LoaderHelper.getFilePath(folderPath, fileName);
         try {
-            ftpClient.deleteFile(LoaderHelper.getFilePath(folderPath, fileName));
+            return ftpClient.deleteFile(filePath);
         } catch (IOException e) {
-            throw new LoadException("ftp上传出错!");
+            throw new LoadException(String.format("ftp删除文件  %s 出错.%n", filePath));
         }
         
     }

@@ -53,8 +53,8 @@ public class HttpLoader implements Loadable {
     }
     
     @Override
-    public void delete(String folderPath, String fileName) {
-        batchDelete(folderPath, fileName);
+    public boolean delete(String folderPath, String fileName) {
+        return batchDelete(folderPath, fileName);
     }
     
     @Override
@@ -68,12 +68,14 @@ public class HttpLoader implements Loadable {
      * 
      * @param folderPath 文件路径
      * @param fileName 文件名
+     * @return 删除是否成功
      */
-    public void batchDelete(String folderPath, String fileName) {
+    public boolean batchDelete(String folderPath, String fileName) {
         File file = LoaderHelper.getFile(getFullFolderPath(folderPath), fileName);
         if (file.exists()) {
-            file.delete();
+            return file.delete();
         }
+		return false;
     }
     
     /**
@@ -134,7 +136,6 @@ public class HttpLoader implements Loadable {
             throw new LoadException("上传出错!");
         } finally {
             // close
-            // LoaderHelper.close(inputStream);
             LoaderHelper.close(os);
         }
     }

@@ -72,9 +72,10 @@ public interface Loadable {
      * 
      * @param folderPath 要删除的文件的路径
      * @param fileName 要删除的文件的名称
+     * @return 删除是否成功
      * @exception LoadException 当删除失败的时候会抛出<code>LoadException</code>
      */
-    void delete(String folderPath, String fileName);
+    boolean delete(String folderPath, String fileName);
     
     /**
      * 批量上传所使用的方法,该方法不会自己调用openServer()打开连接,完成之后也不会关闭连接<br>

@@ -24,6 +24,9 @@ public class LoadFile {
     /** 文件上传uploadId,各种业务点保存该id*/
     private String uploadId;
     
+    /** 文件上传uploadkey*/
+    private String uploadKey;
+    
     /** 文件后缀 */
     private String fileSuffix;
     
@@ -182,5 +185,20 @@ public class LoadFile {
 	 */
 	public void setUploadId(String uploadId) {
 		this.uploadId = uploadId;
+	}
+
+	/**
+	 * get upload key
+	 * @return uploadKey
+	 */
+	public String getUploadKey() {
+		return uploadKey;
+	}
+
+	/**
+	 * @param uploadKey	uploadKey
+	 */
+	public void setUploadKey(String uploadKey) {
+		this.uploadKey = uploadKey;
 	}
 }

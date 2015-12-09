@@ -104,7 +104,6 @@ public class LoaderHelper {
 			size = size + c;   
 		}
 		outputStream.flush();
-		
 //		close(outputStream);
 //		close(inputStream);
 
