@@ -43,6 +43,15 @@ public class CapFileType {
     /** 业务模型中的流程节点对应的附件 */
     public static final String UPLOAD_DOC_FILE = "UPLOAD_DOC_FILE";
     
+    /** 文档嵌入式对象的文件 */
+    public static final String DOC_EMBED_OBJECT = "DOC_EMBED_OBJECT";
+    
+    /** 文档嵌入式对象的缩略图 */
+    public static final String DOC_EMBED_OBJECT_VIEW = "DOC_EMBED_OBJECT_VIEW";
+    
+    /** 文档嵌入式图片 */
+    public static final String DOC_EMBED_IMG = "DOC_EMBED_IMG";
+    
     /**
      * 文件类型Map
      */
@@ -55,7 +64,10 @@ public class CapFileType {
         fileTypeMap.put(BIZ_PROCESS_NODE_KEY, "BIZ_PROCESS_NODE");
         fileTypeMap.put(BIZ_FORM_KEY, "BIZ_FORM");
         fileTypeMap.put(UEDITOR_FILE_KEY, "UEDITOR");
-        fileTypeMap.put(UPLOAD_DOC_FILE, "BIZ_PROCESS_INFO");
+        fileTypeMap.put(UPLOAD_DOC_FILE, UPLOAD_DOC_FILE);
+        fileTypeMap.put(DOC_EMBED_OBJECT, DOC_EMBED_OBJECT);
+        fileTypeMap.put(DOC_EMBED_OBJECT_VIEW, DOC_EMBED_OBJECT_VIEW);
+        fileTypeMap.put(DOC_EMBED_IMG, DOC_EMBED_IMG);
     }
     
     /**
