@@ -19,6 +19,8 @@ import java.util.List;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.exception.LoadException;
@@ -31,7 +33,12 @@ import com.comtop.cap.component.loader.exception.LoadException;
  *
  */
 public class ApacheFtpLoader implements Loadable {
-    
+	
+	/**
+	 * log
+	 */
+	private final static Logger LOG = LoggerFactory.getLogger(ApacheFtpLoader.class);
+	
     /** ApacheFtpLoader 对象 单例 */
     public static ApacheFtpLoader instance = null;
     
@@ -89,7 +96,9 @@ public class ApacheFtpLoader implements Loadable {
      */
     public void openServer() {
         if (config == null) {
-            throw new LoadException("找不到相关ftp连接配置参数,无法连接到ftp服务器！");
+        	RuntimeException e = new LoadException("找不到相关ftp连接配置参数,无法连接到ftp服务器！");
+        	LOG.error(e.getMessage(), e);
+            throw e;
         }
         
         // 要是ftpClient是活动的就不在创建连接
@@ -115,7 +124,9 @@ public class ApacheFtpLoader implements Loadable {
             }
             // 登录
             if (!ftpClient.login(config.getUsername(), config.getPassword())) {
-                throw new LoadException("ftp服务器登录失败，请检查连接的用户名和密码！");
+                RuntimeException e = new LoadException("ftp服务器登录失败，请检查连接的用户名和密码！");
+            	LOG.error(e.getMessage(), e);
+                throw e;
             }
             
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
@@ -123,9 +134,13 @@ public class ApacheFtpLoader implements Loadable {
             
             // System.out.println("登录成功！server 地址：" + config.getHost() + " port:" + config.getPort() );
         } catch (SocketException e) {
-            throw new LoadException("ftp服务器连接失败，请检查连接配置。 " + getFtpConfig(config), e);
+            RuntimeException loadException = new LoadException("ftp服务器连接失败，请检查连接配置。 " + getFtpConfig(config), e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         } catch (IOException e) {
-            throw new LoadException("ftp服务器连接失败，请检查连接配置。" + getFtpConfig(config), e);
+            RuntimeException loadException = new LoadException("ftp服务器连接失败，请检查连接配置。" + getFtpConfig(config), e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         }
         
     }
@@ -138,25 +153,29 @@ public class ApacheFtpLoader implements Loadable {
     @Override
     public void downLoad(OutputStream outputStream, String folderPath, String fileName) {
         // 获取client
-        // openServer();
+        openServer();
         try {
             String path = LoaderHelper.getFilePath(folderPath, fileName);
             if (!ftpClient.retrieveFile(path, outputStream)) {
-                throw new LoadException("请求下载的资源不存在!资源文件为：" + ftpClient.printWorkingDirectory() + path);
+                RuntimeException loadException = new LoadException("请求下载的资源不存在!资源文件为：" + ftpClient.printWorkingDirectory() + path);
+            	LOG.error(loadException.getMessage(), loadException);
+                throw loadException;
             }
             // LoaderHelper.close(outputStream); //放到外层UploadUtil去关闭
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new LoadException("ftp下载出错!");
+        	RuntimeException loadException = new LoadException("ftp下载出错!", e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         } finally {
             // 关闭连接
             // LoaderHelper.close(outputStream); //放到外层UploadUtil去关闭
-            // closeServer();
+             closeServer();
         }
     }
     
     @Override
     public URI upload(InputStream inputStream, String folderPath, String fileName) {
+    	openServer();
         try {
             // 如果目录不存在
             if (!isDirectoryExists(folderPath)) {
@@ -164,8 +183,10 @@ public class ApacheFtpLoader implements Loadable {
                 mkd(folderPath);
             }
             boolean uploaded = ftpClient.storeFile(LoaderHelper.getFilePath(folderPath, fileName), inputStream);
-            if (uploaded) {
-                throw new LoadException("ftp上传出错!请检查服务器上传目录是否存在：" + ftpClient.printWorkingDirectory() + folderPath);
+            if (!uploaded) {
+                RuntimeException loadException = new LoadException("ftp上传出错!请检查服务器上传目录是否存在：" + ftpClient.printWorkingDirectory() + folderPath);
+            	LOG.error(loadException.getMessage(), loadException);
+                throw loadException;
             }
             StringBuffer buffer = new StringBuffer();
             
@@ -175,23 +196,32 @@ public class ApacheFtpLoader implements Loadable {
             buffer.append(fileName);
             return new URI(URLEncoder.encode(buffer.toString(), "ISO-8859-1"));
         } catch (IOException e) {
-            throw new LoadException("ftp上传出错!");
+            RuntimeException loadException = new LoadException("ftp上传出错!", e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         } catch (URISyntaxException e) {
-            throw new LoadException("ftp上传出错!");
+        	RuntimeException loadException = new LoadException("ftp上传出错!", e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         } finally {
             // 关闭连接
+        	closeServer();
         }
         
     }
     
     @Override
     public boolean delete(String folderPath, String fileName) {
-        
+    	openServer();
     	String filePath = LoaderHelper.getFilePath(folderPath, fileName);
         try {
             return ftpClient.deleteFile(filePath);
         } catch (IOException e) {
-            throw new LoadException(String.format("ftp删除文件  %s 出错.%n", filePath));
+        	RuntimeException loadException = new LoadException(String.format("ftp删除文件  %s 出错.%n", filePath), e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
+        } finally {
+        	closeServer();
         }
         
     }
@@ -254,7 +284,9 @@ public class ApacheFtpLoader implements Loadable {
         try {
             ftpClient.deleteFile(LoaderHelper.getFilePath(folderPath, fileName));
         } catch (IOException e) {
-            throw new LoadException("ftp上传出错!");
+            RuntimeException loadException = new LoadException("ftp上传出错!", e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         }
     }
     
@@ -270,10 +302,14 @@ public class ApacheFtpLoader implements Loadable {
         try {
             String path = LoaderHelper.getFilePath(folderPath, fileName);
             if (!ftpClient.retrieveFile(path, outputStream)) {
-                throw new LoadException("请求下载的资源不存在!资源文件为：" + ftpClient.printWorkingDirectory() + path);
+                RuntimeException loadException = new LoadException("请求下载的资源不存在!资源文件为：" + ftpClient.printWorkingDirectory() + path);
+            	LOG.error(loadException.getMessage(), loadException);
+                throw loadException;
             }
         } catch (IOException e) {
-            throw new LoadException("ftp下载出错!");
+            RuntimeException loadException = new LoadException("ftp下载出错!", e);
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         }
     }
     
@@ -316,9 +352,22 @@ public class ApacheFtpLoader implements Loadable {
      */
     private String[] getFileNames(String folderPath) {
         try {
-            return ftpClient.listNames(folderPath);
+        	openServer();
+        	FTPFile[] objFTPFileArray = ftpClient.listFiles(folderPath);
+        	closeServer();
+        	if(objFTPFileArray.length > 0) {
+        		String[] fileNames = new String[objFTPFileArray.length];
+        		int index = 0;
+            	for(FTPFile ftpFile: objFTPFileArray) {
+            		fileNames[index] = ftpFile.getName();
+            	}
+            	return fileNames;
+        	}
+        	return null;
         } catch (IOException e) {
             return null;
+        }finally {
+        	closeServer();
         }
     }
     
@@ -339,8 +388,9 @@ public class ApacheFtpLoader implements Loadable {
             String path = LoaderHelper.getFilePath(folderPath, fileName);
             return ftpClient.retrieveFileStream(path);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new LoadException("ftp下载出错!");
+            RuntimeException loadException = new LoadException("ftp下载出错!");
+        	LOG.error(loadException.getMessage(), loadException);
+            throw loadException;
         }
     }
 }

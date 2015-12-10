@@ -92,7 +92,7 @@ public class FileUploader {
 					String fileName = LoaderUtil.createRandomFileName(originFileName);
 					LoaderUtil.upLoad(is, folderPath, fileName);
 					State storageState = new BaseState(true);
-					storageState.putInfo("url", LoaderUtil.getVisitUrl() + "/" + folderPath + "/" + fileName);
+					storageState.putInfo("url", LoaderUtil.getVisitUrl() + folderPath + "/" + fileName);
 					storageState.putInfo("type", suffix);
 					storageState.putInfo("original", originFileName);
 					storageState.putInfo("size", fileItem.getSize());

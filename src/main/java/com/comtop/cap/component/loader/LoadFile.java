@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URI;
 
 import com.comtop.cap.component.loader.util.LoaderUtil;
+import com.comtop.cip.json.annotation.JSONField;
 
 /**
  * @author yangsai
@@ -167,6 +168,7 @@ public class LoadFile {
      *
      * @return 获取对应的文件输入流
      */
+    @JSONField(serialize=false)
     public InputStream getInputStream() {
         return LoaderUtil.getInputstream(this.folderPath, this.fileName);
     }
