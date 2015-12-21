@@ -109,7 +109,7 @@ public interface Loadable {
     /**
      * 将保存的服务器连接关闭掉
      */
-    // void closeServer();
+     void closeServer();
     
     /**
      * 

@@ -65,6 +65,7 @@ public class BaseState implements State {
 	/**
 	 * isSuccess
 	 */
+	@Override
 	public boolean isSuccess () {
 		return this.state;
 	}

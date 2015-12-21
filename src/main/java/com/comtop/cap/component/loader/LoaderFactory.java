@@ -53,10 +53,11 @@ public class LoaderFactory {
      * @return loadable
      */
     public static Loadable createFtpLoader(LoaderConfig config) {
-        if (ApacheFtpLoader.instance == null) {
-            ApacheFtpLoader.instance = new ApacheFtpLoader(config);
-        }
-        return ApacheFtpLoader.instance;
+        // if (ApacheFtpLoader.instance == null) {
+        // ApacheFtpLoader.instance = new ApacheFtpLoader(config);
+        // }
+        // return ApacheFtpLoader.instance;
+        return new ApacheFtpLoader(config);
     }
     
 }

@@ -52,6 +52,9 @@ public class CapFileType {
     /** 文档嵌入式图片 */
     public static final String DOC_EMBED_IMG = "DOC_EMBED_IMG";
     
+    /** 文档嵌入式对象的文件 */
+    public static final String DOC_EMBED = "DOC_EMBED";
+    
     /**
      * 文件类型Map
      */
@@ -68,6 +71,7 @@ public class CapFileType {
         fileTypeMap.put(DOC_EMBED_OBJECT, DOC_EMBED_OBJECT);
         fileTypeMap.put(DOC_EMBED_OBJECT_VIEW, DOC_EMBED_OBJECT_VIEW);
         fileTypeMap.put(DOC_EMBED_IMG, DOC_EMBED_IMG);
+        fileTypeMap.put(DOC_EMBED, DOC_EMBED);
     }
     
     /**

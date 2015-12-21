@@ -10,22 +10,22 @@ package com.comtop.cap.component.loader;
 import java.io.InputStream;
 import java.net.URI;
 
-import org.apache.commons.lang.Validate;
-
 import com.comtop.cap.component.loader.util.LoaderUtil;
 
 /**
- * 文件定位类，用于获取上传文件不同访问的路径 
+ * 文件定位类，用于获取上传文件不同访问的路径
+ * 
  * @author yangsai
  */
 public class FileLocation {
-	 /** 上传后存放文件名 */
+    
+    /** 上传后存放文件名 */
     private String fileName;
     
-    /** 文件上传uploadId,各种业务点保存该id*/
+    /** 文件上传uploadId,各种业务点保存该id */
     private String uploadId;
     
-    /** 文件上传uploadkey*/
+    /** 文件上传uploadkey */
     private String uploadKey;
     
     /** 上传后文件存放目录 */
@@ -34,55 +34,63 @@ public class FileLocation {
     /** 上传后的文件uri */
     private URI uri;
     
-    
     /**
      * 构造方法
      */
     public FileLocation() {
-		super();
-	}
-
-	/**
-	 * 构造方法
-	 * @param uploadId 文件上传uploadId
-	 * @param folderPath 上传后文件存放目录
-	 * @param fileName 上传后存放文件名
-	 */
-	public FileLocation(String uploadId, String folderPath, String fileName) {
-		super();
-		this.uploadId = uploadId;
-		this.folderPath = folderPath;
-		this.fileName = fileName;
-	}
-	
-	
-
-	/**
-	 * 构造方法
-	 * @param httpUrl {@link #toHttpUrlString()} 方法生成的httpUrl 
-	 */
-	public FileLocation(String httpUrl) {
-		super();
-		String[] urlPart = httpUrl.trim().split(LoaderHelper.separator);
-		int length = urlPart.length;
-		Validate.notNull(urlPart[length - 1], "get fileName fail");
-		this.fileName = urlPart[length - 1];
-		Validate.notNull(urlPart[length - 2], "get uploadId fail");
-		this.uploadId = urlPart[length - 2];
-		Validate.notNull(urlPart[length - 3], "get folderPath fail");
-		this.folderPath = urlPart[length - 3] + LoaderHelper.separator + urlPart[length - 3];
-	}
-	
-	/**
-	 * 转换为Http格式的url
-	 * @return Http格式的url
-	 */
-	public String toHttpUrlString() {
-		return LoaderUtil.getVisitUrl() + "/" + folderPath + "/" + fileName;
-	}
-
-	/**
+        super();
+    }
+    
+    /**
+     * 构造方法
+     * 
+     * @param uploadId 文件上传uploadId
+     * @param folderPath 上传后文件存放目录
+     * @param fileName 上传后存放文件名
+     */
+    public FileLocation(String uploadId, String folderPath, String fileName) {
+        super();
+        this.uploadId = uploadId;
+        this.folderPath = folderPath;
+        this.fileName = fileName;
+    }
+    
+    /**
+     * 构造方法
+     * 
+     * @param httpUrl {@link #toHttpUrlString()} 方法生成的httpUrl
+     */
+    public FileLocation(String httpUrl) {
+        super();
+        StringBuilder sbUrl = new StringBuilder(httpUrl.trim());
+        sbUrl.delete(0, LoaderUtil.getVisitUrl().length());
+        if (LoaderHelper.separator.equals(sbUrl.substring(0, 1))) {
+            sbUrl.deleteCharAt(0);
+        }
+        int iLastSepIndex = sbUrl.lastIndexOf(LoaderHelper.separator);
+        
+        this.fileName = sbUrl.substring(iLastSepIndex + 1, sbUrl.length());
+        this.folderPath = sbUrl.substring(0, iLastSepIndex);
+        // String[] urlPart = sbUrl.toString().split(LoaderHelper.separator);
+        // int length = urlPart.length;
+        // Validate.notNull(urlPart[length - 2], "get uploadId fail");
+        // this.uploadId = urlPart[length - 2];
+        // Validate.notNull(urlPart[length - 3], "get folderPath fail");
+        // this.folderPath = urlPart[length - 3] + LoaderHelper.separator + urlPart[length - 2];
+    }
+    
+    /**
+     * 转换为Http格式的url
+     * 
+     * @return Http格式的url
+     */
+    public String toHttpUrlString() {
+        return LoaderUtil.getVisitUrl() + folderPath + "/" + fileName;
+    }
+    
+    /**
      * get 上传后文件存放目录
+     * 
      * @return 上传后文件存放目录
      */
     public String getFolderPath() {
@@ -100,10 +108,11 @@ public class FileLocation {
     
     /**
      * 转换为InputStream
+     * 
      * @return InputStream
      */
     public InputStream toInputStream() {
-    	return LoaderUtil.getFileInputStream(folderPath, fileName);
+        return LoaderUtil.getFileInputStream(folderPath, fileName);
     }
     
     /**
@@ -126,36 +135,39 @@ public class FileLocation {
     
     /**
      * get uploadId
+     * 
      * @return uploadId
      */
-	public String getUploadId() {
-		return uploadId;
-	}
-
-	/**
-	 * set uploadId
-	 * @param uploadId uploadId
-	 */
-	public void setUploadId(String uploadId) {
-		this.uploadId = uploadId;
-	}
-
-	/**
-	 * get upload key
-	 * @return uploadKey
-	 */
-	public String getUploadKey() {
-		return uploadKey;
-	}
-
-	/**
-	 * @param uploadKey	uploadKey
-	 */
-	public void setUploadKey(String uploadKey) {
-		this.uploadKey = uploadKey;
-	}
-
-	/**
+    public String getUploadId() {
+        return uploadId;
+    }
+    
+    /**
+     * set uploadId
+     * 
+     * @param uploadId uploadId
+     */
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
+    }
+    
+    /**
+     * get upload key
+     * 
+     * @return uploadKey
+     */
+    public String getUploadKey() {
+        return uploadKey;
+    }
+    
+    /**
+     * @param uploadKey uploadKey
+     */
+    public void setUploadKey(String uploadKey) {
+        this.uploadKey = uploadKey;
+    }
+    
+    /**
      * @return 获取 uri属性值
      */
     public URI getUri() {

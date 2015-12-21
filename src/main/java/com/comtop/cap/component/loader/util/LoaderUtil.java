@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import com.comtop.cap.component.loader.FileLocation;
+import com.comtop.cap.component.loader.Loadable;
 import com.comtop.cap.component.loader.LoaderFactory;
 import com.comtop.cap.component.loader.LoaderHelper;
 import com.comtop.cap.component.loader.config.CapFileType;
@@ -79,6 +80,14 @@ public class LoaderUtil {
      */
     public static InputStream getFileInputStream(String folderPath, String fileName) {
     	return LoaderFactory.getLoader(sysLoaderConfig).getFileInputStream(folderPath, fileName);
+    }
+    
+    /**
+     * 获取LoaderFactory
+     * @return Loadable
+     */
+    public static Loadable getLoader() {
+    	return LoaderFactory.getLoader(sysLoaderConfig);
     }
     
     /**

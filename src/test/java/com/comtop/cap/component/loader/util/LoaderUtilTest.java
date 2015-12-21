@@ -11,7 +11,7 @@ import org.junit.Test;
 public class LoaderUtilTest {
 	
 	/** 测试文件上传后存放的路径 */
-	private String folderPath = "testUploadFile";
+	private String folderPath = "/DOC_EMBED_IMG/封面";
 	/** 测试上传文件存放的路径 */
 	private String uploadPath = "uploadFile";
 	/** 测试下载文件存放的路径 */
