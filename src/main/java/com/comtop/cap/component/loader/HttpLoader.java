@@ -57,7 +57,7 @@ public class HttpLoader implements Loadable {
         return batchDelete(folderPath, fileName);
     }
     
-    @Override
+//    @Override
     public void configure(LoaderConfig loaderConfig) {
         this.config = loaderConfig;
     }
@@ -203,11 +203,6 @@ public class HttpLoader implements Loadable {
         } catch (FileNotFoundException e) {
             throw new LoadException("服务器上文件" + fileName + "不存在，文件路径为：" + folderPath);
         }
-    }
-    
-    @Override
-    public void closeServer() {
-        //
     }
     
 }

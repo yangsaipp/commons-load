@@ -25,13 +25,13 @@ import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.exception.LoadException;
 
 /**
- * FTP上传下载方式，即上传下载都在应用服务器<br>
- * 采用的是apache的ftpClient实现
+ * FTPLoader实现<br>
+ * 采用的是Apache的ftpClient实现
  * 
  * @author sai.yang
  * 
  */
-public class ApacheFtpLoader implements Loadable {
+public class ApacheFtpLoader implements ConnectLoadable {
     
     /**
      * log
@@ -55,7 +55,7 @@ public class ApacheFtpLoader implements Loadable {
      */
     ApacheFtpLoader() {
         super();
-        openServer();
+        connect();
     }
     
     /**
@@ -67,14 +67,14 @@ public class ApacheFtpLoader implements Loadable {
     ApacheFtpLoader(LoaderConfig config) {
         super();
         this.config = config;
-        openServer();
+        connect();
     }
     
     /**
      * 将保存的服务器连接关闭掉
      */
     @Override
-    public void closeServer() {
+    public void disconnect() {
         if (ftpClient.isConnected()) {
             try {
                 ftpClient.disconnect();
@@ -86,16 +86,16 @@ public class ApacheFtpLoader implements Loadable {
         }
     }
     
-    @Override
-    protected void finalize() throws Throwable {
-        closeServer();
-    }
+//    @Override
+//    protected void finalize() throws Throwable {
+//        closeServer();
+//    }
     
     /**
      * 打开一个服务器连接,用来进行上传和下载.<br>
      * 主要用于批量上传和下载
      */
-    public void openServer() {
+    public void connect() {
         if (config == null) {
             RuntimeException e = new LoadException("找不到相关ftp连接配置参数,无法连接到ftp服务器！");
             LOG.error(e.getMessage(), e);
@@ -155,7 +155,7 @@ public class ApacheFtpLoader implements Loadable {
     @Override
     public void downLoad(OutputStream outputStream, String folderPath, String fileName) {
         // 获取client
-        openServer();
+        connect();
         try {
             String path = LoaderHelper.getFilePath(folderPath, fileName);
             if (!ftpClient.retrieveFile(path, outputStream)) {
@@ -172,13 +172,13 @@ public class ApacheFtpLoader implements Loadable {
         } finally {
             // 关闭连接
             // LoaderHelper.close(outputStream); //放到外层UploadUtil去关闭
-            closeServer();
+            disconnect();
         }
     }
     
     @Override
     public URI upload(InputStream inputStream, String folderPath, String fileName) {
-        openServer();
+        connect();
         try {
             // 如果目录不存在
             if (!isDirectoryExists(folderPath)) {
@@ -209,14 +209,14 @@ public class ApacheFtpLoader implements Loadable {
             throw loadException;
         } finally {
             // 关闭连接
-            closeServer();
+            disconnect();
         }
         
     }
     
     @Override
     public boolean delete(String folderPath, String fileName) {
-        openServer();
+        connect();
         String filePath = LoaderHelper.getFilePath(folderPath, fileName);
         try {
             return ftpClient.deleteFile(filePath);
@@ -225,7 +225,7 @@ public class ApacheFtpLoader implements Loadable {
             LOG.error(loadException.getMessage(), loadException);
             throw loadException;
         } finally {
-            closeServer();
+            disconnect();
         }
         
     }
@@ -369,9 +369,9 @@ public class ApacheFtpLoader implements Loadable {
      */
     private String[] getFileNames(String folderPath) {
         try {
-            openServer();
+            connect();
             FTPFile[] objFTPFileArray = ftpClient.listFiles(folderPath);
-            closeServer();
+            disconnect();
             if (objFTPFileArray.length > 0) {
                 String[] fileNames = new String[objFTPFileArray.length];
                 int index = 0;
@@ -384,7 +384,7 @@ public class ApacheFtpLoader implements Loadable {
         } catch (IOException e) {
             return null;
         } finally {
-            closeServer();
+            disconnect();
         }
     }
     
@@ -402,7 +402,7 @@ public class ApacheFtpLoader implements Loadable {
     
     @Override
     public InputStream getFileInputStream(String folderPath, String fileName) {
-        openServer();
+        connect();
         try {
             String path = LoaderHelper.getFilePath(folderPath, fileName);
             return ftpClient.retrieveFileStream(path);
