@@ -164,16 +164,6 @@ public class LoadFile {
     }
     
     /**
-     * 获取对应的文件输入流
-     *
-     * @return 获取对应的文件输入流
-     */
-    @JSONField(serialize=false)
-    public InputStream getInputStream() {
-        return LoaderUtil.getInputstream(this.folderPath, this.fileName);
-    }
-
-    /**
      * get uploadId
      * @return uploadId
      */

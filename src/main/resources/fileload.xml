@@ -1,0 +1,16 @@
+<root>
+	<loader id="apacheFtp" factory="com.comtop.cap.ApacheFtpLoaderFactory">
+		<host>10.10.5.223</host>
+		<username>admin</username>
+		<password>admin</password>
+		<port>2121</port>
+		<encoding>UTF-8</encoding>
+		<basepath>/</basepath>
+	</loader>
+	
+	<configs loader="apacheFtp">
+		<load-config uploadkey="BIZ_FORM_KEY" folderpath="biz_form_key/${yyyy-MM-dd}"/>
+	</configs>
+	
+	<load-config uploadkey="BIZ_FORM_KEY_VAL" folderpath="biz_form_key/${yyyy-MM-dd}" loader="apacheFtp"/>
+</root>

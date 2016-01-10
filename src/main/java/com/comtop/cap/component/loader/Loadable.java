@@ -23,7 +23,6 @@ public interface Loadable {
     
     /**
      * 上传 ,该方法会调用openServer()方法打开一个连接 在下载完后会关闭连接<br>
-     * 注意：该方法的实现有义务在上传完(不管成功还是失败)后将inputStream流关闭
      * 
      * @param inputStream 上传资源的IO
      * @param folderPath 上传后文件存放的文件夹路径
@@ -35,7 +34,6 @@ public interface Loadable {
     
     /**
      * 下载,该方法会调用openServer()方法打开一个连接 在下载完后会关闭连接<br>
-     * 注意：该方法的实现有义务在上传完(不管成功还是失败)后将outputStream流关闭
      * 
      * @param outputStream 下载资源的IO
      * @param folderPath 下载的文件所在的文件夹路径

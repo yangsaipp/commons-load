@@ -107,15 +107,6 @@ public class FileLocation {
     }
     
     /**
-     * 转换为InputStream
-     * 
-     * @return InputStream
-     */
-    public InputStream toInputStream() {
-        return LoaderUtil.getFileInputStream(folderPath, fileName);
-    }
-    
-    /**
      * get 上传后存放文件名
      * 
      * @return 上传后存放文件名

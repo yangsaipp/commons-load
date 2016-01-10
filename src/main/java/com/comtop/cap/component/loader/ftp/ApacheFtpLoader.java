@@ -5,7 +5,7 @@
  * 复制、修改或发布本软件.
  *****************************************************************************/
 
-package com.comtop.cap.component.loader;
+package com.comtop.cap.component.loader.ftp;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +21,8 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comtop.cap.component.loader.ConnectLoadable;
+import com.comtop.cap.component.loader.LoaderHelper;
 import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.exception.LoadException;
 
@@ -64,7 +66,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
      * @param config
      *            配置
      */
-    ApacheFtpLoader(LoaderConfig config) {
+    public ApacheFtpLoader(LoaderConfig config) {
         super();
         this.config = config;
         connect();
@@ -155,7 +157,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
     @Override
     public void downLoad(OutputStream outputStream, String folderPath, String fileName) {
         // 获取client
-        connect();
+//        connect();
         try {
             String path = LoaderHelper.getFilePath(folderPath, fileName);
             if (!ftpClient.retrieveFile(path, outputStream)) {
@@ -171,14 +173,14 @@ public class ApacheFtpLoader implements ConnectLoadable {
             throw loadException;
         } finally {
             // 关闭连接
-            // LoaderHelper.close(outputStream); //放到外层UploadUtil去关闭
-            disconnect();
+             LoaderHelper.close(outputStream); //放到外层UploadUtil去关闭
+//            disconnect();
         }
     }
     
     @Override
     public URI upload(InputStream inputStream, String folderPath, String fileName) {
-        connect();
+//        connect();
         try {
             // 如果目录不存在
             if (!isDirectoryExists(folderPath)) {
@@ -209,14 +211,14 @@ public class ApacheFtpLoader implements ConnectLoadable {
             throw loadException;
         } finally {
             // 关闭连接
-            disconnect();
+//            disconnect();
         }
         
     }
     
     @Override
     public boolean delete(String folderPath, String fileName) {
-        connect();
+//        connect();
         String filePath = LoaderHelper.getFilePath(folderPath, fileName);
         try {
             return ftpClient.deleteFile(filePath);
@@ -225,7 +227,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
             LOG.error(loadException.getMessage(), loadException);
             throw loadException;
         } finally {
-            disconnect();
+//            disconnect();
         }
         
     }
@@ -369,7 +371,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
      */
     private String[] getFileNames(String folderPath) {
         try {
-            connect();
+//            connect();
             FTPFile[] objFTPFileArray = ftpClient.listFiles(folderPath);
             disconnect();
             if (objFTPFileArray.length > 0) {
@@ -384,7 +386,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
         } catch (IOException e) {
             return null;
         } finally {
-            disconnect();
+//            disconnect();
         }
     }
     

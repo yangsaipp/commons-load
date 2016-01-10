@@ -8,6 +8,7 @@
 package com.comtop.cap.component.loader;
 
 import com.comtop.cap.component.loader.config.LoaderConfig;
+import com.comtop.cap.component.loader.ftp.ApacheFtpLoader;
 
 /**
  * loader工厂类 用于创建loader
@@ -41,8 +42,8 @@ public class LoaderFactory {
      * @return loadable
      */
     public static Loadable createHttpLoader(LoaderConfig config) {
-        HttpLoader.instance.configure(config);
-        return HttpLoader.instance;
+        NativeLoader.instance.configure(config);
+        return NativeLoader.instance;
     }
     
     /**
