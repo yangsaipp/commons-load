@@ -7,7 +7,6 @@
 
 package com.comtop.cap.component.loader;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

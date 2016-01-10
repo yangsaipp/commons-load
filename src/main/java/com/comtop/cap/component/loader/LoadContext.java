@@ -1,8 +1,5 @@
 package com.comtop.cap.component.loader;
 
-import java.io.InputStream;
-import java.net.URI;
-
 import com.comtop.cap.component.loader.config.LoaderConfig;
 import com.comtop.cap.component.loader.config.LoaderConfigFactory;
 

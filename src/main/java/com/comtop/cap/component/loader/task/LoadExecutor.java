@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import com.comtop.cap.component.loader.ConnectLoadable;
 import com.comtop.cap.component.loader.LoadContext;
 import com.comtop.cap.component.loader.Loadable;
-import com.comtop.cap.component.loader.LoaderFactory;
 import com.comtop.cap.component.loader.LoaderHelper;
 
 /**
