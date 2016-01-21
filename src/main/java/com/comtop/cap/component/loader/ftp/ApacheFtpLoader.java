@@ -57,7 +57,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
      */
     ApacheFtpLoader() {
         super();
-        connect();
+//        connect();
     }
     
     /**
@@ -69,7 +69,6 @@ public class ApacheFtpLoader implements ConnectLoadable {
     public ApacheFtpLoader(LoaderConfig config) {
         super();
         this.config = config;
-        connect();
     }
     
     /**
@@ -98,6 +97,7 @@ public class ApacheFtpLoader implements ConnectLoadable {
      * 主要用于批量上传和下载
      */
     public void connect() {
+    	LOG.debug("starting ftp connect..");
         if (config == null) {
             RuntimeException e = new LoadException("找不到相关ftp连接配置参数,无法连接到ftp服务器！");
             LOG.error(e.getMessage(), e);
